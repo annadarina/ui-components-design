@@ -9,6 +9,7 @@ Practicing to write UI components with a plain JavaScript.
 | # | Component                                |
 |---|------------------------------------------|
 | 1 | [Progress Bar](/components/progress-bar) |
+| 2 | [Tabs](/components/tabs)                 |
 
 ## License
 
