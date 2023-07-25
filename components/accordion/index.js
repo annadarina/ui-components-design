@@ -75,7 +75,6 @@
         const $iconEl = event.target.querySelector('.accordion__icon');
         $iconEl.classList.toggle('accordion__icon--rotate');
 
-
         // Toggle panel visibility
         const $accordionContents = event.target.nextSibling;
         $accordionContents.hidden = !$accordionContents.hidden;
