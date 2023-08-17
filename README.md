@@ -2,7 +2,7 @@
 
 ## Description
 
-Practicing to write UI components with a plain JavaScript.
+Practicing writing UI components with plain JavaScript.
 
 ## Problems
 
@@ -10,6 +10,7 @@ Practicing to write UI components with a plain JavaScript.
 |---|------------------------------------------|
 | 1 | [Progress Bar](/components/progress-bar) |
 | 2 | [Tabs](/components/tabs)                 |
+| 3 | [Accordion](/components/accordion)       |
 
 ## License
 
