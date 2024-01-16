@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Temperature Converter</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        .fields {
+            display: flex;
+            gap: 16px;
+        }
+
+        .field-row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input {
+            width: 80px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class='fields'>
+    <div class='field-row'>
+        <input class="input" type='number' id='celsius'/>
+        <label for='celsius'>Celsius</label>
+    </div>
+    =
+    <div class='field-row'>
+        <input class="input" type='number' id='fahrenheit'/>
+        <label for='fahrenheit'>Fahrenheit</label>
+    </div>
+</div>
+
+<script>
+  const celsiusField = document.getElementById('celsius');
+  const fahrenheitField = document.getElementById('fahrenheit');
+
+  function convert(type, value) {
+    if (type === 'celsius') {
+      return (value * 9 / 5) + 32;
+    }
+
+    if (type === 'fahrenheit') {
+      return ((value - 32) * 5) / 9;
+    }
+  }
+
+  function handleChange($source, $dest, type) {
+    $source.addEventListener('input', (e) => {
+      const value = e.target.value;
+
+      if (value === '') {
+        return;
+      }
+
+      const formattedValue = convert(type, value);
+      $dest.value = format(formattedValue);
+    })
+  }
+
+  function format(value) {
+    const isFormat = String(value).split('.')[1]?.length > 4;
+    const val = isFormat ? value.toFixed(4) : value;
+
+    const digits = String(val).split('.')[1] || '';
+    return digits.split('').every(d => d === '0') ? parseFloat(val).toFixed(0) : val;
+  }
+
+  handleChange(celsiusField, fahrenheitField, 'celsius');
+  handleChange(fahrenheitField, celsiusField, 'fahrenheit');
+</script>
+</body>
+</html>

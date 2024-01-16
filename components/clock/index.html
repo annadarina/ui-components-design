@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Clock</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .wrapper {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+        }
+
+        .clock {
+            position: relative;
+            width: 20rem;
+            height: 20rem;
+            border: 10px solid white;
+            border-radius: 50%;
+        }
+
+        .clock:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1.2rem;
+            height: 1.2rem;
+            background-color: white;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        .clock__hand {
+            position: absolute;
+            top: 50%;
+            height: 5px;
+            z-index: 1;
+            background-color: white;
+            transform: rotate(90deg);
+            transform-origin: 100%;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .clock__hand--second,
+        .clock__hand--minute {
+            width: 45%;
+            left: 5%;
+        }
+
+        .clock__hand--second {
+            background-color: antiquewhite;;
+        }
+
+        .clock__hand--hour {
+            width: 25%;
+            left: 25%;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="clock">
+        <div class="clock__hand clock__hand--hour"></div>
+        <div class="clock__hand clock__hand--minute"></div>
+        <div class="clock__hand clock__hand--second"></div>
+    </div>
+</div>
+
+<script>
+  const SECOND_HAND = document.querySelector('.clock__hand--second');
+  const MINUTE_HAND = document.querySelector('.clock__hand--minute');
+  const HOUR_HAND = document.querySelector('.clock__hand--hour');
+
+  function setTime() {
+    const now = new Date();
+
+    const seconds = now.getSeconds();
+    const secDegrees = ((seconds / 60) * 360) + 90; // 90 is initial transform rotate offset
+    SECOND_HAND.style.transform = `rotate(${secDegrees}deg)`;
+
+    if (seconds === 0) {
+      SECOND_HAND.style.transition = 'transform 0s ease-in-out';
+    } else {
+      SECOND_HAND.style.transition = 'transform 0.2s ease-in-out';
+    }
+
+    const minutes = now.getMinutes();
+    const minDegrees = ((minutes / 60) * 360) + 90; // 90 is initial transform rotate offset
+    MINUTE_HAND.style.transform = `rotate(${minDegrees}deg)`;
+
+    const hours = now.getHours();
+    const hourDegrees = ((hours / 12) * 360) + 90; // 90 is initial transform rotate offset
+    HOUR_HAND.style.transform = `rotate(${hourDegrees}deg)`;
+  }
+
+  setInterval(setTime, 1000);
+</script>
+</body>
+</html>
