@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Todo List</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <h1>Todo List</h1>
+
+    <div>
+        <input type="text" placeholder="Add your task"/>
+        <div>
+            <button id="submit" disabled>Submit</button>
+        </div>
+    </div>
+
+    <ul class="list">
+        <li>
+            <span>Walk the dog</span>
+            <button>Delete</button>
+        </li>
+    </ul>
+</div>
+<script>
+  const $inputEl = document.querySelector('input');
+  const $submitButtonEl = document.querySelector('#submit');
+  const $listEl = document.querySelector('ul');
+
+  // Add new task to the list
+  function addTask(value) {
+    if (!value) {
+      return;
+    }
+
+    const $listItemEl = document.createElement('li');
+    const $labelEl = document.createElement('span');
+    const $buttonEl = document.createElement('button');
+
+    $listItemEl.appendChild($labelEl);
+    $labelEl.textContent = value;
+
+    $listItemEl.appendChild($buttonEl);
+    $buttonEl.textContent = 'Delete';
+
+    $listEl.appendChild($listItemEl);
+  }
+
+  // Remove task from the list
+  function deleteTask(listItem) {
+    listItem.parentNode.removeChild(listItem);
+  }
+
+  // Add event listener for submitting new task
+  $submitButtonEl.addEventListener('click', () => {
+    addTask($inputEl.value);
+    $inputEl.value = '';
+    $submitButtonEl.disabled = !$inputEl.value;
+  })
+
+  // Add event listener for deleting the task
+  $listEl.addEventListener('click', (event) => {
+    deleteTask(event.target.parentNode);
+  })
+
+  // Change submit button disabled state
+  $inputEl.addEventListener('input', () => {
+    $submitButtonEl.disabled = !$inputEl.value;
+  })
+
+  // Add event listener to handle Enter key press
+  $inputEl.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent form submission
+      $submitButtonEl.click();
+    }
+  });
+</script>
+</body>
+</html>

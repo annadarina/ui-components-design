@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Mortgage Calculator</title>
+    <style>
+        .field {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <form class="form">
+        <div class="field">
+            <label for="amount">Loan amount ($)</label>
+            <input type="number" id="amount" name="amount">
+        </div>
+        <div class="field">
+            <label for="interest">Annual interest rate (%)</label>
+            <input type="number" id="interest" name="interest">
+        </div>
+        <div class="field">
+            <label for="term">Loan term (in years)</label>
+            <input type="number" id="term" name="term">
+        </div>
+        <button type="submit">Calculate</button>
+
+        <div>
+            <ul class="result">
+            </ul>
+        </div>
+    </form>
+</div>
+<script>
+  const $formEl = document.querySelector('.form');
+  const $listEl = document.querySelector('.result');
+
+  function calculateMortgage({amount, interest, term}) {
+    const monthlyInterestRate = interest / 100 / 12;
+    const loanTermInMonths = term * 12;
+
+    // Calculate monthly mortgage payment.
+    const monthlyPayment =
+      (amount * monthlyInterestRate) /
+      (1 -
+        1 /
+        Math.pow(
+          1 + monthlyInterestRate,
+          loanTermInMonths,
+        ));
+
+    // Calculate total payment amount.
+    const totalPayment = monthlyPayment * loanTermInMonths;
+
+    // Calculate total interest paid.
+    const totalInterest = totalPayment - amount;
+
+    const values = [
+      {
+        label: 'Monthly mortgage payment',
+        value: monthlyPayment,
+      },
+      {
+        label: 'Total payment amount',
+        value: totalPayment,
+      },
+      {
+        label: 'Total interest paid',
+        value: totalInterest,
+      },
+    ];
+
+    const currencyFormatter = new Intl.NumberFormat(
+      'en-US',
+      {
+        style: 'currency',
+        currency: 'USD',
+      },
+    );
+
+    values.forEach(item => {
+      const $liEl = document.createElement('li');
+      $liEl.textContent = `${item.label}: ${currencyFormatter.format(item.value)}`;
+      $listEl.appendChild($liEl);
+    })
+  }
+
+  $formEl.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const amount = formData.get('amount');
+    const interest = formData.get('interest');
+    const term = formData.get('term');
+
+    $listEl.innerHTML = '';
+    calculateMortgage({amount, interest, term});
+  })
+</script>
+</body>
+</html>
